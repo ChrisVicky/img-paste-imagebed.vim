@@ -177,6 +177,15 @@ function! s:InputName()
     return name
 endfunction
 
+function! g:MarkdownPasteImageTitleMode(relpath)
+	execute "normal! i<center>\<CR>"
+	execute "normal! i\t<img style=\"border-radius: 0.3125em;box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);\"\<CR>"
+    	execute "normal! i\t\tsrc=\"" . a:relpath . "\"><br>\<CR>"
+    	execute "normal! i\t<div style=\"color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;\">img</div>\<CR>"
+	execute "normal! i</center>"
+endfunction
+
+
 function! g:MarkdownPasteImage(relpath)
         execute "normal! i![" . g:mdip_tmpname[0:0]
         let ipos = getcurpos()
@@ -198,6 +207,7 @@ function! g:EmptyPasteImage(relpath)
 endfunction
 
 let g:PasteImageFunction = 'g:MarkdownPasteImage'
+let g:PasteImageFunction_TitleMode = 'g:MarkdownPasteImageTitleMode'
 
 function! mdip#MarkdownClipboardImage()
     " detect os: https://vi.stackexchange.com/questions/2572/detect-os-in-vimscript
@@ -230,6 +240,43 @@ function! mdip#MarkdownClipboardImage()
         let extension = split(tmpfile, '\.')[-1]
         let relpath = g:mdip_imgdir_intext . '/' . g:mdip_tmpname . '.' . extension
         if call(get(g:, 'PasteImageFunction'), [relpath])
+            return
+        endif
+    endif
+endfunction
+
+
+function! mdip#MarkdownClipboardImageTitleMode()
+    " detect os: https://vi.stackexchange.com/questions/2572/detect-os-in-vimscript
+    let s:os = "Windows"
+    if !(has("win64") || has("win32") || has("win16"))
+        let s:os = substitute(system('uname'), '\n', '', '')
+    endif
+
+    " add check whether file with the name exists
+    while  1
+        let workdir = s:SafeMakeDir()
+        " change temp-file-name and image-name
+        let g:mdip_tmpname = s:InputName()
+        if empty(g:mdip_tmpname)
+          let g:mdip_tmpname = g:mdip_imgname . '_' . s:RandomName()
+        endif
+        let testpath =  workdir . '/' . g:mdip_tmpname . '.png'
+        if filereadable(testpath) == 0
+            break
+        else
+            echo "\nThis file name already exists"
+        endif
+    endwhile
+
+    let tmpfile = s:SaveFileTMP(workdir, g:mdip_tmpname)
+    if tmpfile == 1
+        return
+    else
+        " let relpath = s:SaveNewFile(g:mdip_imgdir, tmpfile)
+        let extension = split(tmpfile, '\.')[-1]
+        let relpath = g:mdip_imgdir_intext . '/' . g:mdip_tmpname . '.' . extension
+        if call(get(g:, 'PasteImageFunction_TitleMode'), [relpath])
             return
         endif
     endif

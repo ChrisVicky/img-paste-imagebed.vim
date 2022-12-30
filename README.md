@@ -1,8 +1,26 @@
 # img-paste.vim
+
 Yet simple tool to paste images into markdown files
 
+## Added 
+1. HTML Style as default
+Example
+```
+<center>
+    <img style="border-radius: 0.3125em;box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"
+        src="img/image_xxxx-xx-xx.png"><br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;display: inline-block;color: #999;padding: 2px;">img</div>
+</center>
+```
+
+Add to .vimrc
+```vimrc
+autocmd FileType markdown nmap <buffer><silent> <leader>tt :call mdip#MarkdownClipboardImage()<CR><ESC>
+autocmd FileType markdown nmap <buffer><silent> <leader>pp :call mdip#MarkdownClipboardImageTitleMode()<CR><ESC>k$2F>
+```
+
 ## Use Case
-You are editing a markdown file and have an image on the clipboard and want to paste it into the document as the text `![](img/image1.png)`. Instead of first copying it to that directory, you want to do it with a single `<leader>p` key press in Vim. So it hooks `<leader>p`, checks if you are editing a Markdown file, saves the image from the clipboard to the location  `img/image1.png`, and inserts `![](img/image1.png)` into the file.
+You are editing a markdown file and have an image on the clipboard and want to paste it into the document as the text `![](img/image1.png)`. Instead of first copying it to that directoryk you want to do it with a single `<leader>p` key press in Vim. So it hooks `<leader>p`, checks if you are editing a Markdown file, saves the image from the clipboard to the location  `img/image1.png`, and inserts `![](img/image1.png)` into the file.
 
 By default, the location of the saved file (`img/image1.png`) and the in-text reference (`![](img/image1.png`) are identical. You can change this behavior by specyfing an absolute path to save the file (`let g:mdip_imgdir_absolute = /absolute/path/to/imgdir` on linux) and a different path for in-text references (`let g:mdip_imgdir_intext = /relative/path/to/imgdir` on linux). 
 
