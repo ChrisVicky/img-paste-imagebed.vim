@@ -239,6 +239,9 @@ function! mdip#MarkdownClipboardImage()
         " let relpath = s:SaveNewFile(g:mdip_imgdir, tmpfile)
         let extension = split(tmpfile, '\.')[-1]
         let relpath = g:mdip_imgdir_intext . '/' . g:mdip_tmpname . '.' . extension
+        if exists('g:mdip_upload')
+            relpath = system(g:mdip_upload, relpath)
+        endif
         if call(get(g:, 'PasteImageFunction'), [relpath])
             return
         endif
@@ -276,6 +279,9 @@ function! mdip#MarkdownClipboardImageTitleMode()
         " let relpath = s:SaveNewFile(g:mdip_imgdir, tmpfile)
         let extension = split(tmpfile, '\.')[-1]
         let relpath = g:mdip_imgdir_intext . '/' . g:mdip_tmpname . '.' . extension
+        if exists('g:mdip_upload')
+            relpath = system(g:mdip_upload, relpath)
+        endif
         if call(get(g:, 'PasteImageFunction_TitleMode'), [relpath])
             return
         endif
