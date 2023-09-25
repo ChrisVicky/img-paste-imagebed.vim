@@ -3,6 +3,15 @@
 Yet simple tool to paste images into markdown files
 
 ## Added 
+### 2023-09-25
+* Add github image bed
+* configuration: 
+```lua
+vim.g.mdip_upload = "~/.local/bin/upload-img-github"
+```
+* 'g:mdip'
+
+### 2022-12-22
 1. HTML Style as default
 Example
 ```
