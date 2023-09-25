@@ -240,7 +240,7 @@ function! mdip#MarkdownClipboardImage()
         let extension = split(tmpfile, '\.')[-1]
         let relpath = g:mdip_imgdir_intext . '/' . g:mdip_tmpname . '.' . extension
         if exists('g:mdip_upload')
-            relpath = system(g:mdip_upload, relpath)
+            relpath = system(g:mdip_upload relpath)
         endif
         if call(get(g:, 'PasteImageFunction'), [relpath])
             return
@@ -280,7 +280,7 @@ function! mdip#MarkdownClipboardImageTitleMode()
         let extension = split(tmpfile, '\.')[-1]
         let relpath = g:mdip_imgdir_intext . '/' . g:mdip_tmpname . '.' . extension
         if exists('g:mdip_upload')
-            relpath = system(g:mdip_upload, relpath)
+            relpath = system(g:mdip_upload relpath)
         endif
         if call(get(g:, 'PasteImageFunction_TitleMode'), [relpath])
             return
