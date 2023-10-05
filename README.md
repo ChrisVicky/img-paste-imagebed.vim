@@ -3,18 +3,19 @@
 Yet simple tool to paste images into markdown files
 
 ## Added 
-### 2023-09-25
-* Add github image bed
-* configuration: 
+### 2023-09-25 - image bed integration
+* Additional Configuration: (in `lua`)
 ```lua
 vim.g.mdip_upload = "~/.local/bin/upload-img-github"
 ```
-* 'g:mdip'
+* `upload-img-github` is a program that does One and the only thing: input a path of a locally stored image and output a url of its path in the internet.
+* I have implemented my own image bed via Github in Golang: https://github.com/ChrisVicky/image-bed-go
+* ![Vim-Integration](https://raw.githubusercontent.com/ChrisVicky/image-bed/main/2023-10/vim-image-bed-integration.gif)
 
 ### 2022-12-22
 1. HTML Style as default
 Example
-```
+```html
 <center>
     <img style="border-radius: 0.3125em;box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);"
         src="img/image_xxxx-xx-xx.png"><br>
